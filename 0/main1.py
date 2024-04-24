@@ -1,26 +1,31 @@
 import requests # библиотека для взаимодействия с веб-сервисами и выполнения запросов к веб-страницам
-from bs4 import BeautifulSoup as BS # библиотека bs4 и ее класс BeautifulSoup производит синтаксический анализ
+from bs4 import BeautifulSoup as BS, \
+    BeautifulSoup  # библиотека bs4 и ее класс BeautifulSoup производит синтаксический анализ
 
 
 
+# функция для получения html код страницы
 def get_html(url):
     r = requests.get(url)
-    print(type(r)) # type - показывает какого типа объект, типа Response в данном случае
-    print(dir(r))  # dir - показывает список всех атрибутов объекта (r), это свойства, методы
-    # например воспользуемся свойством status_code, возвращает код ответа сервера типа 200(все хорошо)
-    # или вернет 403(доступ запрещен) 404 405 503(внутр ошибка сервера ) и т.п.
-    print(r.status_code)
-    print(r.ok) # True или False - ответ сервера
+    # print(type(r)) # type - показывает какого типа объект, типа Response в данном случае
+    # print(dir(r))  # dir - показывает список всех атрибутов объекта (r), это свойства, методы
+    # # например воспользуемся свойством status_code, возвращает код ответа сервера типа 200(все хорошо)
+    # # или вернет 403(доступ запрещен) 404 405 503(внутр ошибка сервера ) и т.п.
+    # print(r.status_code)
+    # print(r.ok) # True или False - ответ сервера
     # print(r.text) # свойство text - выдаст весь html код страницы
     return r.text
 
+def get_data(html):
+    s = BeautifulSoup(html, 'lxml')
+    tr = s.find('table').find_all('b')
+    return tr
 
 
 def main():
     # Начальный URL
-    url = 'http://old.zip-2002.ru/akusticheskie_komponenty/dinamiki/'
-    html = get_html(url)
-    # print(html)
+    url = 'http://old.zip-2002.ru/'
+    print(get_data(get_html(url)))
 
 if __name__ == '__main__':
     main()
