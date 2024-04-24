@@ -10,6 +10,8 @@ def get_next_page_url(soup):
     return None
 
 
+
+
 def process_page(url):
     """Обработка одной страницы и извлечение данных."""
     while url:
@@ -18,12 +20,12 @@ def process_page(url):
 
         divs_obolochka = soup.find_all('div', class_='obolochka')
         print(len(divs_obolochka))
-        # for div_obolochka in divs_obolochka:
-        #     divs_detshow = div_obolochka.find_all('div', class_='detshow')
-        #     for div_detshow in divs_detshow:
-        #         span = div_detshow.find('span', class_='nazvan')
-        #         if span:
-        #             print(span.text.strip())
+        for div_obolochka in divs_obolochka:
+            divs_detshow = div_obolochka.find_all('div', class_='detshow')
+            for div_detshow in divs_detshow:
+                span = div_detshow.find('span', class_='nazvan')
+                if span:
+                    print(span.text.strip())
 
         # Пытаемся получить URL следующей страницы
         url = get_next_page_url(soup)
